@@ -18,7 +18,7 @@ extern int impactCounter;  // Contador de impactos
 
 // Definición de colores para la tira LED
 const CRGB RGB_COLORS[] = {CRGB(255, 0, 0), CRGB(255, 255, 0), CRGB(0, 255, 0), CRGB(0, 0, 255)};    // Colores para la tira LED
-const int IMPACTS_TO_NEXT_COLOR = 3;  // Impactos necesarios para cambiar de color
+const int IMPACTS_TO_NEXT_COLOR = 6;  // Impactos necesarios para cambiar de color
 
 // Definición del array de LEDs
 extern CRGB leds[NUM_LEDS];  // Arreglo para los LEDs de la tira
