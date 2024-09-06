@@ -5,7 +5,7 @@ int sound_sensor = A0; //assign to pin A2
 int sensorValue;
 int minimumSound = 50;
 int ledLevel = 0;
-unsigned long time;c:\Users\Firegore\Documents\Arduino\kickers-lab\main.ino
+unsigned long time;
 
 int lastElms[256] = {0};
 int count=0;
