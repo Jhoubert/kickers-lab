@@ -7,47 +7,52 @@ unsigned long lastImpactTime = 0;
 
 void setup() {
     Serial.begin(9600);
-    pinMode(BUTTON_PIN, INPUT_PULLUP);  // Usamos PULLUP interno para evitar lecturas erráticas
+    Serial.println("Setting up");
     
+    pinMode(BUTTON_PIN, INPUT_PULLUP);  // Usamos PULLUP interno para evitar lecturas erráticas
     // Inicialización de la tira LED
     FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
     FastLED.clear();  // Apagar todos los LEDs al inicio
     FastLED.show();
+    int sensorValue = analogRead(SOUND_SENSOR_PIN);
+    fillAmbianceWith(sensorValue);
     Serial.println("Set up done.");
+
 }
 
 void doBlinking(){
-    int nextBlinkTime = lastImpactTime+BLINK_DURATION+nextBlink;
-    if(millis > nextBlinkTime){
+    if(millis() > nextBlink){
+        unsigned long remaining = (lastImpactTime + RESET_TIME) - millis();
         toggleLeds();
-        if(nextBlink==0){
-          nextBlink = BLINK_DURATION;
-        }
-        nextBlink = millis()-(nextBlinkTime/8);
-
-        Serial.print(" -> Next blink on:");
-        Serial.println(nextBlink);
+        nextBlink = millis() + (remaining/6);
     }
 }
 
 void loop() {
     int impact = listenImpact();
     int press = listenButton();
-    
+
     impactCounter+=impact+press;
     if(impact == 1 || press == 1){
+        Serial.print("New impact, counter:");
+        Serial.println(impactCounter);
         updateLedColor(impactCounter);
+        nextBlink=millis()+BLINK_TIME;
+        lastImpactTime=millis();
+        digitalWrite(5, HIGH);
     }
-
+  
     // Do blinking progresively
-    if(impactCounter > 0 && lastImpactTime+BLINK_DURATION > millis()){
+    if(impactCounter > 0 && nextBlink < millis()){
         doBlinking();
     }
     
     // Turn off.
-    if(impactCounter > 0 && lastImpactTime+RESET_TIME > millis()){  
+    if(impactCounter > 0 && lastImpactTime+RESET_TIME < millis()){  
+        Serial.println("Completely turn off....");
         FastLED.clear();
         FastLED.show();
+        digitalWrite(5, LOW);
         impactCounter=0;
     }
     

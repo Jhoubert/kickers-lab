@@ -3,6 +3,7 @@
 // Definición e inicialización de las variables globales
 int impactCounter = 0;  // Iniciamos el contador de impactos
 bool isLedOn = false;
+int ambianceSoundLevel = 0;
 extern unsigned long nextBlink = 0;
 
 int sound_log[SOUND_LOG_SIZE] = {0};

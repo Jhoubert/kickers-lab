@@ -9,30 +9,7 @@ CRGB interpolateColor(CRGB color1, CRGB color2, float ratio) {
   uint8_t red = (uint8_t)((1.0 - ratio) * color1.r + ratio * color2.r);
   uint8_t green = (uint8_t)((1.0 - ratio) * color1.g + ratio * color2.g);
   uint8_t blue = (uint8_t)((1.0 - ratio) * color1.b + ratio * color2.b);
-
-  // Imprimir los valores de interpolación para depuración
-  Serial.print("Interpolando entre colores: R1=");
-  Serial.print(color1.r);
-  Serial.print(", G1=");
-  Serial.print(color1.g);
-  Serial.print(", B1=");
-  Serial.print(color1.b);
-  Serial.print(" y R2=");
-  Serial.print(color2.r);
-  Serial.print(", G2=");
-  Serial.print(color2.g);
-  Serial.print(", B2=");
-  Serial.print(color2.b);
-  Serial.print(" con ratio: ");
-  Serial.println(ratio);
-
-  Serial.print("Color resultante: R=");
-  Serial.print(red);
-  Serial.print(", G=");
-  Serial.print(green);
-  Serial.print(", B=");
-  Serial.println(blue);
-
+  
   return CRGB(red, green, blue);
 }
 
@@ -73,17 +50,15 @@ void updateLedColor(int counter) {
 }
 
 void toggleLeds(){
-
-        Serial.print(millis());
     if(isLedOn){
-        Serial.println(" -> Turning leds off");
         FastLED.clear();
         FastLED.show();
         isLedOn=false;
+        digitalWrite(5, LOW);
     }else{
-        Serial.println(" -> Turning leds on");
         updateLedColor(impactCounter);
         isLedOn=true;
+        digitalWrite(5, HIGH);
     }
 }
 
