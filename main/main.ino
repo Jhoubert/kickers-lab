@@ -29,11 +29,12 @@ void doBlinking(){
 }
 
 void loop() {
-    int impact = listenImpact();
-    int press = listenButton();
+    int detectedEvents = 0;
+    detectedEvents += listenImpact();
+    detectedEvents += listenButton();
 
-    impactCounter+=impact+press;
-    if(impact == 1 || press == 1){
+    if(detectedEvents>0){
+        impactCounter+=detectedEvents;
         Serial.print("New impact, counter:");
         Serial.println(impactCounter);
         updateLedColor(impactCounter);
