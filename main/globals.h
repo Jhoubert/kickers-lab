@@ -8,9 +8,10 @@ const unsigned long BLINK_TIME = 3000;  // 3 segundos para comenzar a parpadear
 
 
 // Definición del número de LEDs y el pin de datos
-#define NUM_LEDS 30  // Número de LEDs en la tira
-#define DATA_PIN 8    // Pin donde conectaremos el pin de datos de la tira RGB
-#define BUTTON_PIN 7
+#define NUM_LEDS 60  // Número de LEDs en la tira
+#define DATA_PIN 6    // Pin donde conectaremos el pin de datos de la tira RGB
+#define BUTTON_PIN 9
+#define KY002_SENSOR_PIN 8
 
 #define SOUND_SENSOR_PIN A0
 #define MIN_SOUND_LEVEL 50

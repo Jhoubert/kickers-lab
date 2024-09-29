@@ -2,14 +2,18 @@
 #include "ledControl.h"  // Incluimos el control de LEDs
 #include "listenImpact.h" 
 #include "listenButton.h"
+#include "listenKy002.h"
 
 unsigned long lastImpactTime = 0;
 
 void setup() {
     Serial.begin(9600);
     Serial.println("Setting up");
-    
-    pinMode(BUTTON_PIN, INPUT_PULLUP);  // Usamos PULLUP interno para evitar lecturas erráticas
+
+    // Usamos PULLUP interno para evitar lecturas erráticas
+    pinMode(BUTTON_PIN, INPUT_PULLUP); 
+    // Inicializamos el sensor ky-002 (sensor de impactos) 
+    pinMode(KY002_SENSOR_PIN, INPUT);
     // Inicialización de la tira LED
     FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
     FastLED.clear();  // Apagar todos los LEDs al inicio
@@ -32,6 +36,7 @@ void loop() {
     int detectedEvents = 0;
     detectedEvents += listenImpact();
     detectedEvents += listenButton();
+    detectedEvents += listenKy002();
 
     if(detectedEvents>0){
         impactCounter+=detectedEvents;
